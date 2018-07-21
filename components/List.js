@@ -3,15 +3,15 @@ import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground, ScrollVie
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import SelectMultiple from 'react-native-select-multiple'
 
+const haversine = require('haversine')
+
 export default class List extends React.Component {
 
     state = {
-        data: []
+        // distance: 0
     }
 
     render() {
-
-        
 
         return (
             <ScrollView stickyHeaderIndices={[0]} >
@@ -19,25 +19,36 @@ export default class List extends React.Component {
                     <Text style={styles.resultsText} >{this.props.trails.length} trails were found</Text>
                 </View>
                 {this.props.trails.map(trail => {
-                    // console.log(trail)
-                    return (
-                        <View key={trail.id}>
-                            <ImageBackground  source={ trail.imgMedium !== '' ? { uri: trail.imgMedium } : require('../replacer.jpg') } style={styles.trailInfoContainer} >
-                                <Text style={styles.name} >{trail.name}</Text>
-                                <Text style={styles.location} >{trail.location}</Text>
-                                <Text style={styles.length} >{trail.length} miles</Text>
-                                {/* <Text style={styles.length} >{trail.difficulty}</Text> */}
-
-                                { trail.difficulty === 'green'      ? (<Text style={styles.green} >Easy</Text>)
-                                : trail.difficulty === 'greenBlue'  ? (<Text style={styles.greenBlue} >Moderate</Text>)
-                                : trail.difficulty === 'blue'       ? (<Text style={styles.blue} >Challenging</Text>)
-                                : trail.difficulty === 'blueBlack'  ? (<Text style={styles.blueBlack} >Difficult</Text>)
-                                : trail.difficulty === 'black'      ? (<Text style={styles.black} >Hard</Text>)
-                                :                                     (<Text style={styles.blackBlack} >Extreme</Text>) }
-
-                            </ImageBackground>
-                        </View>
-                    )
+                    {
+                        const start = {
+                            latitude: this.props.lat,
+                            longitude: this.props.lon
+                        }
+                        
+                        const end = {
+                            latitude: trail.latitude,
+                            longitude: trail.longitude
+                        }
+                        console.log(trail)
+                        return (
+                            <View key={trail.id}>
+                                <ImageBackground  source={ trail.imgMedium !== '' ? { uri: trail.imgMedium } : require('../replacer.jpg') } style={styles.trailInfoContainer} >
+                                    <Text style={styles.name} >{trail.name}</Text>
+                                    <Text style={styles.location} >{trail.location}</Text>
+                                    <Text style={styles.length} >{trail.length} miles</Text>
+    
+                                    { trail.difficulty === 'green'      ? (<Text style={styles.green} >Easy</Text>)
+                                    : trail.difficulty === 'greenBlue'  ? (<Text style={styles.greenBlue} >Moderate</Text>)
+                                    : trail.difficulty === 'blue'       ? (<Text style={styles.blue} >Challenging</Text>)
+                                    : trail.difficulty === 'blueBlack'  ? (<Text style={styles.blueBlack} >Difficult</Text>)
+                                    : trail.difficulty === 'black'      ? (<Text style={styles.black} >Hard</Text>)
+                                    :                                     (<Text style={styles.blackBlack} >Extreme</Text>) }
+    
+                                    <Text style={styles.length} >{(haversine(start, end, {unit: 'mile'})).toFixed(1)} miles away</Text>
+                                </ImageBackground>
+                            </View>
+                        )
+                    }
                 })}
             </ScrollView>
         )
@@ -50,8 +61,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        // justifyContent: 'center',
-        // alignItems: 'center',
     },
     results: {
         backgroundColor: 'green',

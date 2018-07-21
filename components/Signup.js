@@ -1,10 +1,87 @@
 import React, { Component } from 'react'
 import { AppRegistry, Text, View, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native'
+import Joi from 'react-native-joi'
+import { Icon } from 'react-native-elements'
 
 import { Actions } from 'react-native-router-flux'
 
+const signupSchema = Joi.object().keys({
+    firstName: Joi.string().alphanum().min(2).max(30).required(),
+    lastName: Joi.string().alphanum().min(2).max(30).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().trim().min(8).required(),
+    confirmPassword: Joi.string().trim().min(8).required()
+    // password: Joi.string().regex(/^[a-zA-Z0-9]{8,30}$/).required()
+})
+
 export default class Signup extends Component {
+
+    state = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    }
+
+    validUser = () => {
+        if(this.state.password != this.state.confirmPassword) {
+            alert('Passwords must match!')
+            return false
+        }
+        const result = Joi.validate(this.state, signupSchema)
+        if (result.error === null) {
+            return true
+        }
+        if(result.error.message.includes('firstName')) {
+            alert('Invalid first name!')
+        } else if (result.error.message.includes('lastName')) {
+            alert('Invalid last name!')
+        } else if (result.error.message.includes('email')) {
+            alert('Invalid email!')
+        } else {
+            alert('Password must be at least 8 characters')
+        }
+        return false
+    }
+
+    handleSignup = () => {
+        if(this.validUser()) {
+            const body = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password
+            }
+            fetch('http://localhost:5000/auth/signup', {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response)
+                console.log(body)
+                if (response.ok) {
+                    return response.json()
+                } 
+                    return response.json().then(error => {
+                        throw new Error(error.message)
+                        // alert(error.message)
+                }) 
+            })
+            .then(user => {
+                console.log(user)
+            }) .catch(error => {
+                console.log(error.message)
+                alert(error.message)
+            })
+        }
+    }
+
     render() {
+        // console.log(this.state)
         return (
             // <SafeAreaView>
             <ImageBackground source={require('../morgan-sarkissian-724629-unsplash.jpg')} style={{width: '100%', height: '100%'}} >
@@ -13,25 +90,68 @@ export default class Signup extends Component {
                     </Image> */}
                     <Text style={styles.logo}>Trailist</Text>
 
+                    {/* <Icon
+                        name='ios-headset' 
+                        reverse/> */}
+
                     <View style={styles.inputContainer}>
 
-                        <TextInput underlineColorAndroid='transparent' style={styles.input}
-                            placeholder='first name'>
+                        <TextInput 
+                            onChangeText={(firstName) => this.setState({firstName})} 
+                            value={this.state.firstName} 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='first name' 
+                            enablesReturnKeyAutomatically 
+                            maxLength={30} 
+                            returnKeyType='go' >
                         </TextInput>
 
-                        <TextInput underlineColorAndroid='transparent' style={styles.input}
-                            placeholder='last name'>
+                        <TextInput 
+                            onChangeText={(lastName) => this.setState({lastName})} 
+                            value={this.state.lastName} 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='last name' 
+                            enablesReturnKeyAutomatically 
+                            maxLength={30} 
+                            returnKeyType='go'>
                         </TextInput>
 
-                        <TextInput underlineColorAndroid='transparent' style={styles.input}
-                            placeholder='email'>
+                        <TextInput 
+                            onChangeText={(email) => this.setState({email})} 
+                            value={this.state.email} 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='email' 
+                            enablesReturnKeyAutomatically 
+                            keyboardType='email-address' 
+                            returnKeyType='go' >
                         </TextInput>
                         
-                        <TextInput secureTextEntry={true} underlineColorAndroid='transparent' style={styles.input}
-                            placeholder='password'>
+                        <TextInput 
+                            onChangeText={(password) => this.setState({password})} 
+                            value={this.state.password} 
+                            secureTextEntry={true} 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='password' 
+                            enablesReturnKeyAutomatically  
+                            returnKeyType='go' >
+                        </TextInput>
+                        
+                        <TextInput 
+                            onChangeText={(confirmPassword) => this.setState({confirmPassword})} 
+                            value={this.state.confirmPassword} 
+                            secureTextEntry={true} 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='confirm password' 
+                            enablesReturnKeyAutomatically 
+                            returnKeyType='go'>
                         </TextInput>
 
-                        <TouchableOpacity style={styles.buttonContainer} >
+                        <TouchableOpacity onPress={this.handleSignup} style={styles.buttonContainer} >
                             <Text style={styles.buttonText}>SIGN-UP</Text>                        
                         </TouchableOpacity >
 
@@ -123,7 +243,7 @@ const styles = StyleSheet.create({
             // justifyContent: 'flex-end'
         },
         loginText: {
-            color: 'blue',
+            color: '#0366d6',
             fontSize: 15,
             fontWeight: 'bold'
         }

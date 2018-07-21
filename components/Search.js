@@ -32,16 +32,8 @@ export default class Search extends Component {
 
     convertLevels = () => {
         return this.state.selectedLevels.map(level => {
-            // console.log('lvl', level);
             
             return level.label
-                // .replace('Easy', 'green' )
-                // .replace('Easy/Intermediate', 'greenBlue')
-                // .replace('Intermediate', 'blue' )
-                // .replace('Intermediate/Difficult', 'blueBlack')
-                // .replace('Difficult', 'black' )
-                // .replace('Extremely Difficult', 'blackBlack')
-            // return level.label
                 .replace('Easy', 'green' )
                 .replace('Moderate', 'greenBlue')
                 .replace('Challenging', 'blue' )
@@ -68,7 +60,6 @@ export default class Search extends Component {
 
     }
     render() {
-        // console.log(this.state.selectedLevels)
 
         return (
             <View>
