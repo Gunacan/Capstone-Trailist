@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { AppRegistry, Text, View, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native'
 import Joi from 'react-native-joi'
-import { Icon } from 'react-native-elements'
+import { Icon, Button } from 'react-native-elements'
 
 import { Actions } from 'react-native-router-flux'
 
@@ -21,7 +21,8 @@ export default class Signup extends Component {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        // signingUp: false
     }
 
     validUser = () => {
@@ -38,9 +39,12 @@ export default class Signup extends Component {
         } else if (result.error.message.includes('lastName')) {
             alert('Invalid last name!')
         } else if (result.error.message.includes('email')) {
-            alert('Invalid email!')
+            alert('Invalid email adress!')
+        } else if(result.error.message.includes('password')) {
+            alert('Password must be at least 8 characters long')
         } else {
-            alert('Password must be at least 8 characters')
+            console.log(result.error)
+            alert('Something went wrong! Try again later!')
         }
         return false
     }
@@ -53,6 +57,7 @@ export default class Signup extends Component {
                 email: this.state.email,
                 password: this.state.password
             }
+            // this.setState({ signingUp: true})
             fetch('http://localhost:5000/auth/signup', {
                 method: 'POST',
                 body: JSON.stringify(body),
@@ -62,19 +67,20 @@ export default class Signup extends Component {
             })
             .then(response => {
                 console.log(response)
-                console.log(body)
+                // console.log(body)
                 if (response.ok) {
                     return response.json()
                 } 
                     return response.json().then(error => {
                         throw new Error(error.message)
-                        // alert(error.message)
                 }) 
             })
             .then(user => {
-                console.log(user)
+                // this.setState({ signingUp: false})
+                // console.log(user)
             }) .catch(error => {
-                console.log(error.message)
+                // this.setState({ signingUp: false})
+                // console.log(error)
                 alert(error.message)
             })
         }
@@ -86,13 +92,29 @@ export default class Signup extends Component {
             // <SafeAreaView>
             <ImageBackground source={require('../morgan-sarkissian-724629-unsplash.jpg')} style={{width: '100%', height: '100%'}} >
                 <View style={styles.content}>
-                    {/* <Image source={require('../hiking2.jpg')} style={styles.backgroundImage} >
-                    </Image> */}
                     <Text style={styles.logo}>Trailist</Text>
 
                     {/* <Icon
                         name='ios-headset' 
                         reverse/> */}
+                    {/* {this.state.signingUp ? (
+                        <Button
+                            loading
+                            loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
+                            titleStyle={{ fontWeight: "700" }}
+                            buttonStyle={{
+                                backgroundColor: "#f0f8ff00",
+                                width: 300,
+                                height: 45,
+                                borderColor: "transparent",
+                                borderWidth: 0,
+                                borderRadius: 5
+                            }}
+                            containerStyle={{ marginTop: 20 }}
+                        />
+                    ) : (null) } */}
+
+
 
                     <View style={styles.inputContainer}>
 
@@ -123,6 +145,7 @@ export default class Signup extends Component {
                             value={this.state.email} 
                             underlineColorAndroid='transparent' 
                             style={styles.input}
+                            autoCapitalize='none'
                             placeholder='email' 
                             enablesReturnKeyAutomatically 
                             keyboardType='email-address' 

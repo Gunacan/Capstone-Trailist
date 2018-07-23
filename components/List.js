@@ -1,9 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground, ScrollView } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground, ScrollView, TouchableOpacity, Button } from 'react-native';
+import { Card, ListItem, Icon } from 'react-native-elements'
 import SelectMultiple from 'react-native-select-multiple'
+import openMap from 'react-native-open-maps';
+import { createOpenLink } from 'react-native-open-maps';
 
 const haversine = require('haversine')
+
+// const yosemite = { latitude: 37.865101, longitude: -119.538330 };
+// const openYosemite = createOpenLink(yosemite);
+// const openYosemiteZoomedOut = createOpenLink({ ...yosemite, zoom: 100,  provider: 'google' });
+
+// const facebookHQ = { latitude: 37.4847, longitude: 122.1477 };
+// const openFacebookHQ = createOpenLink(facebookHQ);
+
 
 export default class List extends React.Component {
 
@@ -11,12 +21,21 @@ export default class List extends React.Component {
         // distance: 0
     }
 
+
+    _getDirections(lat, lon, trailName) {
+        openMap({ latitude: lat, longitude: lon, query: trailName });
+        // openMap({ latitude: lat, longitude: lon, query: trailName , provider: 'google' });
+    }
+
+    
+
     render() {
 
         return (
-            <ScrollView stickyHeaderIndices={[0]} >
+            <ScrollView stickyHeaderIndices={[0]} >        
+
                 <View style={styles.results}>
-                    <Text style={styles.resultsText} >{this.props.trails.length} trails were found</Text>
+                    <Text style={styles.resultsText} >{this.props.trails.length} trails were found near you</Text>
                 </View>
                 {this.props.trails.map(trail => {
                     {
@@ -29,7 +48,7 @@ export default class List extends React.Component {
                             latitude: trail.latitude,
                             longitude: trail.longitude
                         }
-                        console.log(trail)
+                        // console.log(trail)
                         return (
                             <View key={trail.id}>
                                 <ImageBackground  source={ trail.imgMedium !== '' ? { uri: trail.imgMedium } : require('../replacer.jpg') } style={styles.trailInfoContainer} >
@@ -43,8 +62,27 @@ export default class List extends React.Component {
                                     : trail.difficulty === 'blueBlack'  ? (<Text style={styles.blueBlack} >Difficult</Text>)
                                     : trail.difficulty === 'black'      ? (<Text style={styles.black} >Hard</Text>)
                                     :                                     (<Text style={styles.blackBlack} >Extreme</Text>) }
-    
-                                    <Text style={styles.length} >{(haversine(start, end, {unit: 'mile'})).toFixed(1)} miles away</Text>
+                                    
+                                    <View style={styles.bottomContainer}>
+                                        <Text style={styles.length} >{(haversine(start, end, {unit: 'mile'})).toFixed(1)} miles away</Text>
+
+                                        {/* <Icon
+                                            raised
+                                            name='directions'
+                                            type='font-awesome'
+                                            color='#f50'
+                                            onPress={() => console.log('hello')} /> */}
+
+                                        <TouchableOpacity style={styles.iconContainer} onPress={() => this._getDirections(trail.latitude, trail.longitude, trail.name)} >
+                                            {/* <Image style={styles.icon} source={require('../car2.png')} >
+
+                                            </Image> */}
+                                            <Icon
+                                                name='directions'
+                                                color='white'/>
+                                        </TouchableOpacity>
+                                    </View>
+
                                 </ImageBackground>
                             </View>
                         )
@@ -95,7 +133,7 @@ const styles = StyleSheet.create({
         textShadowColor: '#252525',
         textShadowOffset: {width: 2, height: 2},
         textShadowRadius: 15,
-        marginBottom: 30
+        marginBottom: 15
     },
     length: {
         color: 'white',
@@ -160,4 +198,21 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: 2, height: 2},
         textShadowRadius: 15,
     },
+    bottomContainer: {
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    iconContainer: {
+        alignSelf: 'flex-end',
+        marginRight: 40,
+        marginBottom: 10,
+        marginTop: 0,
+        // width: 50,
+        // height: 30
+    },
+    icon: {
+        // backgroundColor: '#22222245'
+        // width: 50,
+        // height: 50
+    }
 })

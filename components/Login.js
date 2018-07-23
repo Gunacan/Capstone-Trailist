@@ -1,12 +1,74 @@
 import React, { Component } from 'react'
 import { AppRegistry, Text, View, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity, AsyncStorage, ImageBackground } from 'react-native'
+import Joi from 'react-native-joi'
+import { Actions } from 'react-native-router-flux'
 
+const loginSchema = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().trim().min(8).required(),
+    // password: Joi.string().regex(/^[a-zA-Z0-9]{8,30}$/).required()
+})
 
 export default class Login extends Component {
+
+    state = {
+        email: '',
+        password: ''
+    }
+
+    validUser = () => {
+        const result = Joi.validate(this.state, loginSchema)
+        if (result.error === null) {
+            return true
+        }
+        console.log(result.error)
+        if(result.error.message.includes('email')) {
+            alert('Invalid email adress')
+        } else if (result.error.message.includes('password')) {
+            alert('Password must be at least 8 characters long')
+        } else {
+            alert('Something went wrong! Try again later!')
+        }
+        return false
+        // alert('Something went wrong! Try again later!')
+    }
+
+    handleLogin = () => {
+        console.log(this.state)
+        if(this.validUser()) {
+
+            fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
+                body: JSON.stringify(this.state),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(response => {
+                // console.log(response)
+                if (response.ok) {
+                    return response.json()
+                } 
+                    return response.json().then(error => {
+                        throw new Error(error.message)
+                }) 
+            })
+            .then(user => {
+                // this.setState({ signingUp: false})
+                console.log(user)
+            }) .catch(error => {
+                // this.setState({ signingUp: false})
+                // console.log(error)
+                alert(error.message)
+            })
+        }
+    }
+
     render() {
+        // console.log(this.state) 
         return (
             // <SafeAreaView>
-            <ImageBackground source={require('../hiking2.jpg')} style={{width: '100%', height: '100%'}} >
+            <ImageBackground source={require('../hiking9.jpg')} style={{width: '100%', height: '100%'}} >
                 <View style={styles.content}>
                     {/* <Image source={require('../hiking2.jpg')} style={styles.backgroundImage} >
                     </Image> */}
@@ -14,15 +76,30 @@ export default class Login extends Component {
 
                     <View style={styles.inputContainer}>
 
-                        <TextInput underlineColorAndroid='transparent' style={styles.input}
-                            placeholder='email'>
+                        <TextInput 
+                            onChangeText={(email) => this.setState({email})}
+                            value={this.state.email}
+                            autoCapitalize='none' 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='email'
+                            enablesReturnKeyAutomatically 
+                            keyboardType='email-address' 
+                            returnKeyType='go' >
                         </TextInput>
                         
-                        <TextInput secureTextEntry={true} underlineColorAndroid='transparent' style={styles.input}
-                            placeholder='password'>
+                        <TextInput
+                            onChangeText={(password) => this.setState({password})}
+                            value={this.state.password} 
+                            secureTextEntry={true} 
+                            underlineColorAndroid='transparent' 
+                            style={styles.input}
+                            placeholder='password'
+                            enablesReturnKeyAutomatically  
+                            returnKeyType='go' >
                         </TextInput>
 
-                        <TouchableOpacity style={styles.buttonContainer} >
+                        <TouchableOpacity onPress={this.handleLogin} style={styles.buttonContainer} >
                             <Text style={styles.buttonText}>LOGIN</Text>                        
                         </TouchableOpacity >
 
