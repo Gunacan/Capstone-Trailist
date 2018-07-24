@@ -76,10 +76,10 @@ export default class Signup extends Component {
                 }) 
             })
             .then(user => {
-                // this.setState({ signingUp: false})
+
                 // console.log(user)
             }) .catch(error => {
-                // this.setState({ signingUp: false})
+
                 // console.log(error)
                 alert(error.message)
             })
@@ -93,28 +93,6 @@ export default class Signup extends Component {
             <ImageBackground source={require('../morgan-sarkissian-724629-unsplash.jpg')} style={{width: '100%', height: '100%'}} >
                 <View style={styles.content}>
                     <Text style={styles.logo}>Trailist</Text>
-
-                    {/* <Icon
-                        name='ios-headset' 
-                        reverse/> */}
-                    {/* {this.state.signingUp ? (
-                        <Button
-                            loading
-                            loadingProps={{ size: "large", color: "rgba(111, 202, 186, 1)" }}
-                            titleStyle={{ fontWeight: "700" }}
-                            buttonStyle={{
-                                backgroundColor: "#f0f8ff00",
-                                width: 300,
-                                height: 45,
-                                borderColor: "transparent",
-                                borderWidth: 0,
-                                borderRadius: 5
-                            }}
-                            containerStyle={{ marginTop: 20 }}
-                        />
-                    ) : (null) } */}
-
-
 
                     <View style={styles.inputContainer}>
 

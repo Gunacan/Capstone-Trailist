@@ -1,19 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground, ScrollView, TouchableOpacity, Button } from 'react-native';
-import { Card, ListItem, Icon } from 'react-native-elements'
+import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground, ScrollView, TouchableOpacity } from 'react-native';
+import { Card, ListItem, Icon, Button } from 'react-native-elements'
 import SelectMultiple from 'react-native-select-multiple'
 import openMap from 'react-native-open-maps';
 import { createOpenLink } from 'react-native-open-maps';
 
 const haversine = require('haversine')
-
-// const yosemite = { latitude: 37.865101, longitude: -119.538330 };
-// const openYosemite = createOpenLink(yosemite);
-// const openYosemiteZoomedOut = createOpenLink({ ...yosemite, zoom: 100,  provider: 'google' });
-
-// const facebookHQ = { latitude: 37.4847, longitude: 122.1477 };
-// const openFacebookHQ = createOpenLink(facebookHQ);
-
 
 export default class List extends React.Component {
 
@@ -32,6 +24,22 @@ export default class List extends React.Component {
     render() {
 
         return (
+            !this.props.isLoaded ? (
+                <View style={styles.spinnerContainer}> 
+
+                    {/* <Button
+                        loading
+                        loadingProps={{ size: "large", color: "red" }}
+                        buttonStyle={{
+                            backgroundColor: "rgba(92, 99,216, 1)",
+                            width: 300,
+                            height: 45,
+                            borderColor: "transparent",
+                            borderWidth: 0,
+                            borderRadius: 5
+                        }} /> */}
+                </View>
+            ) : 
             <ScrollView stickyHeaderIndices={[0]} >        
 
                 <View style={styles.results}>
@@ -66,20 +74,14 @@ export default class List extends React.Component {
                                     <View style={styles.bottomContainer}>
                                         <Text style={styles.length} >{(haversine(start, end, {unit: 'mile'})).toFixed(1)} miles away</Text>
 
-                                        {/* <Icon
-                                            raised
-                                            name='directions'
-                                            type='font-awesome'
-                                            color='#f50'
-                                            onPress={() => console.log('hello')} /> */}
-
                                         <TouchableOpacity style={styles.iconContainer} onPress={() => this._getDirections(trail.latitude, trail.longitude, trail.name)} >
                                             {/* <Image style={styles.icon} source={require('../car2.png')} >
 
                                             </Image> */}
                                             <Icon
                                                 name='directions'
-                                                color='white'/>
+                                                color='white'
+                                                size={40}/>
                                         </TouchableOpacity>
                                     </View>
 
@@ -96,6 +98,11 @@ export default class List extends React.Component {
 
 const styles = StyleSheet.create({
 
+    spinnerContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column'
+    },
     container: {
         flex: 1,
         flexDirection: 'column',
