@@ -4,12 +4,11 @@ import { Button, Header } from 'react-native-elements';
 import SelectMultiple from 'react-native-select-multiple'
 import { Actions } from 'react-native-router-flux'
 
-// const levels = ['Easy', 'Easy/Intermediate', 'Intermediate', 'Intermediate/Difficult', 'Difficult', 'Extremely Difficult' ]
 const levels = [ 'Easy', 'Moderate', 'Challenging', 'Difficult', 'Hard', 'Extreme' ]
 
 const renderLabel = (label, style) => {
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', height: 15 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', height: 17 }}>
             {/* <Image style={{ width: 42, height: 42 }} source={{ uri: 'https://dummyimage.com/100x100/52c25a/fff&text=S' }} /> */}
             {/* <View style={{ marginLeft: 10 }}> */}
                 <Text style={style}>{label}</Text>
@@ -94,7 +93,7 @@ export default class Search extends Component {
 
                     <ScrollView>
                         <SelectMultiple
-                            style={{ height: 200 }}
+                            style={{ height: 210 }}
                             items={levels}
                             renderLabel={renderLabel}
                             selectedItems={this.state.selectedLevels}

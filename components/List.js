@@ -27,17 +27,17 @@ export default class List extends React.Component {
             !this.props.isLoaded ? (
                 <View style={styles.spinnerContainer}> 
 
-                    {/* <Button
+                    <Button
                         loading
-                        loadingProps={{ size: "large", color: "red" }}
+                        loadingProps={{ size: "large", color: "white" }}
                         buttonStyle={{
-                            backgroundColor: "rgba(92, 99,216, 1)",
-                            width: 300,
-                            height: 45,
+                            backgroundColor: "rgba(5, 37, 92, 0.49)",
+                            width:  400,
+                            height: '100%',
                             borderColor: "transparent",
                             borderWidth: 0,
                             borderRadius: 5
-                        }} /> */}
+                        }} />
                 </View>
             ) : 
             <ScrollView stickyHeaderIndices={[0]} >        
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         textShadowColor: '#252525',
         textShadowOffset: {width: 2, height: 2},
         textShadowRadius: 15,
-        marginBottom: 15
+        marginBottom: 8
     },
     length: {
         color: 'white',
@@ -152,7 +152,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     green: {
-        color: 'green',
+        margin: 3,
+        textAlign: 'center',
+        width: 70,
+        backgroundColor: 'green',
+        color: 'white',
         fontSize: 16,
         fontStyle: 'italic',
         fontWeight: 'bold',
@@ -161,7 +165,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     greenBlue: {
-        color: '#00807c',
+        margin: 5,
+        textAlign: 'center',
+        width: 100,
+        backgroundColor: '#00807c',
+        color: 'white',
         fontSize: 15,
         fontStyle: 'italic',
         fontWeight: 'bold',
@@ -170,7 +178,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     blue: {
-        color: '#0079ff',
+        margin: 5,
+        textAlign: 'center',
+        width: 100,
+        backgroundColor: '#0079ff',
+        color: 'white',
         fontSize: 15,
         fontStyle: 'italic',
         fontWeight: 'bold',
@@ -179,7 +191,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     blueBlack: {
-        color: '#0a2b50',
+        margin: 5,
+        textAlign: 'center',
+        width: 100,
+        backgroundColor: '#0a2b50',
+        color: 'white',
         fontSize: 15,
         fontStyle: 'italic',
         fontWeight: 'bold',
@@ -188,7 +204,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     black: {
-        color: 'black',
+        margin: 5,
+        textAlign: 'center',
+        width: 70,
+        backgroundColor: 'black',
+        color: 'white',
         fontSize: 15,
         fontStyle: 'italic',
         fontWeight: 'bold',
@@ -197,7 +217,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     blackBlack: {
-        color: 'black',
+        margin: 5,
+        textAlign: 'center',
+        width: 100,
+        backgroundColor: 'black',
+        color: 'white',
         fontSize: 15,
         fontStyle: 'italic',
         fontWeight: 'bold',

@@ -34,7 +34,7 @@ export default class Login extends Component {
     }
 
     handleLogin = () => {
-        console.log(this.state)
+        // console.log(this.state)
         if(this.validUser()) {
 
             fetch('http://localhost:5000/auth/login', {
@@ -47,6 +47,7 @@ export default class Login extends Component {
             .then(response => {
                 // console.log(response)
                 if (response.ok) {
+                    // AsyncStorage.setItem('token', response.token)
                     return response.json()
                 } 
                     return response.json().then(error => {
