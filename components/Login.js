@@ -55,11 +55,8 @@ export default class Login extends Component {
                 }) 
             })
             .then(user => {
-                // this.setState({ signingUp: false})
                 console.log(user)
             }) .catch(error => {
-                // this.setState({ signingUp: false})
-                // console.log(error)
                 alert(error.message)
             })
         }
@@ -68,11 +65,9 @@ export default class Login extends Component {
     render() {
         // console.log(this.state) 
         return (
-            // <SafeAreaView>
-            <ImageBackground source={require('../hiking9.jpg')} style={{width: '100%', height: '100%'}} >
+            <ImageBackground source={require('../assets/hiking9.jpg')} style={{width: '100%', height: '100%'}} >
                 <View style={styles.content}>
-                    {/* <Image source={require('../hiking2.jpg')} style={styles.backgroundImage} >
-                    </Image> */}
+
                     <Text style={styles.logo}>Trailist</Text>
 
                     <View style={styles.inputContainer}>
@@ -110,7 +105,6 @@ export default class Login extends Component {
                     
                 </View>
             </ImageBackground>
-            // {/* </SafeAreaView> */}
         )
     }
 }

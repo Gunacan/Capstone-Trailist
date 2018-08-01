@@ -56,7 +56,7 @@ constructor(props) {
 
 
   doSearch = ({ driveDistance, length, levels }) => {
-    return fetch(`https://www.hikingproject.com/data/get-trails?lat=${this.state.lat}&lon=${this.state.lon}&maxDistance=${driveDistance}&maxResults=200&sort=distance&key=200301500-54205c5d793bfaed11b51c122904d366`)  
+    return fetch(`https://www.hikingproject.com/data/get-trails?lat=${this.state.lat}&lon=${this.state.lon}&maxDistance=${driveDistance}&maxResults=100&sort=distance&key=200301500-54205c5d793bfaed11b51c122904d366`)  
     .then(response => response.json())
     .then(data => {
 
@@ -119,6 +119,12 @@ constructor(props) {
             component={() => <List {...this.state} />}
             title='Trails'
             // initial
+          />
+
+          <Scene 
+            key='profile'
+            component={Profile} 
+            title='Profile'
           />
 
         </Scene>

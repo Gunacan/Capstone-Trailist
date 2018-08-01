@@ -5,7 +5,7 @@ export default class Profile extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <ImageBackground source={require('../replacer.jpg')} style={styles.backgroundImg} >
+                <ImageBackground source={require('../assets/replacer.jpg')} style={styles.backgroundImg} >
                     <View style={styles.welcome} >
                         <Text style={styles.welcomeText}>Welcome user!</Text>
                     </View>

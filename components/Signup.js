@@ -90,7 +90,7 @@ export default class Signup extends Component {
         // console.log(this.state)
         return (
             // <SafeAreaView>
-            <ImageBackground source={require('../morgan-sarkissian-724629-unsplash.jpg')} style={{width: '100%', height: '100%'}} >
+            <ImageBackground source={require('../assets/morgan-sarkissian-724629-unsplash.jpg')} style={{width: '100%', height: '100%'}} >
                 <View style={styles.content}>
                     <Text style={styles.logo}>Trailist</Text>
 

@@ -5,6 +5,7 @@ import SelectMultiple from 'react-native-select-multiple'
 import openMap from 'react-native-open-maps';
 import { createOpenLink } from 'react-native-open-maps';
 
+
 const haversine = require('haversine')
 
 export default class List extends React.Component {
@@ -59,7 +60,7 @@ export default class List extends React.Component {
                         // console.log(trail)
                         return (
                             <View key={trail.id}>
-                                <ImageBackground  source={ trail.imgMedium !== '' ? { uri: trail.imgMedium } : require('../replacer.jpg') } style={styles.trailInfoContainer} >
+                                <ImageBackground  source={ trail.imgMedium !== '' ? { uri: trail.imgMedium } : require('../assets/replacer.jpg') } style={styles.trailInfoContainer} >
                                     <Text style={styles.name} >{trail.name}</Text>
                                     <Text style={styles.location} >{trail.location}</Text>
                                     <Text style={styles.length} >{trail.length} miles</Text>
@@ -74,15 +75,16 @@ export default class List extends React.Component {
                                     <View style={styles.bottomContainer}>
                                         <Text style={styles.length} >{(haversine(start, end, {unit: 'mile'})).toFixed(1)} miles away</Text>
 
-                                        <TouchableOpacity style={styles.iconContainer} onPress={() => this._getDirections(trail.latitude, trail.longitude, trail.name)} >
-                                            {/* <Image style={styles.icon} source={require('../car2.png')} >
+                                        
 
-                                            </Image> */}
+                                        <TouchableOpacity style={styles.directionIconContainer} onPress={() => this._getDirections(trail.latitude, trail.longitude, trail.name)} >
+
                                             <Icon
                                                 name='directions'
                                                 color='white'
                                                 size={40}/>
                                         </TouchableOpacity>
+
                                     </View>
 
                                 </ImageBackground>
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     greenBlue: {
-        margin: 5,
+        margin: 3,
         textAlign: 'center',
         width: 100,
         backgroundColor: '#00807c',
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     blue: {
-        margin: 5,
+        margin: 3,
         textAlign: 'center',
         width: 100,
         backgroundColor: '#0079ff',
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     blueBlack: {
-        margin: 5,
+        margin: 3,
         textAlign: 'center',
         width: 100,
         backgroundColor: '#0a2b50',
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     black: {
-        margin: 5,
+        margin: 3,
         textAlign: 'center',
         width: 70,
         backgroundColor: 'black',
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 15,
     },
     blackBlack: {
-        margin: 5,
+        margin: 3,
         textAlign: 'center',
         width: 100,
         backgroundColor: 'black',
@@ -231,13 +233,23 @@ const styles = StyleSheet.create({
     },
     bottomContainer: {
         justifyContent: 'space-between',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    iconContainer: {
+    directionIconContainer: {
         alignSelf: 'flex-end',
         marginRight: 40,
         marginBottom: 10,
         marginTop: 0,
+        // width: 50,
+        // height: 30
+    },
+    starIconContainer: {
+        alignSelf: 'flex-end',
+        marginRight: 40,
+        marginBottom: 10,
+        marginTop: 0,
+        marginLeft: 120,
         // width: 50,
         // height: 30
     },
