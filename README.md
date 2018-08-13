@@ -1,6 +1,8 @@
 # Trailist
 
-![site image](appscreenshot.png)
+<!-- ![site image](appscreenshot.png) -->
+
+![githubcapstonedemogif](https://user-images.githubusercontent.com/32599743/44054089-e15bbb34-9efe-11e8-996c-642631eb9247.gif)
 
 ## About
 
